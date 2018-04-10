@@ -1,6 +1,19 @@
 public class Main {
+    private static HnHttpServer mHttpServer = new HnHttpServer();
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        initServer();
+    }
+
+    private static void initServer() {
+        Thread mGameThread = new Thread(() -> {
+            try {
+                Thread.currentThread().setName("GameMainThread");
+                mHttpServer.start(666);
+            } catch (Exception mEm) {
+                mEm.printStackTrace();
+            }
+        });
+        mGameThread.start();
     }
 }
