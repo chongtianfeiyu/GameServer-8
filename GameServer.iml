@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="netty-all-4.1.23.Final" level="project" />
     <orderEntry type="library" name="fastjson-1.2.47" level="project" />
+    <orderEntry type="library" name="mybatis-3.4.4" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-5.1.42-bin" level="project" />
   </component>
 </module>

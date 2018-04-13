@@ -1,3 +1,5 @@
+import com.itgowo.http.HnHttpServer;
+
 public class Main {
     private static HnHttpServer mHttpServer = new HnHttpServer();
 
@@ -9,7 +11,7 @@ public class Main {
         Thread mGameThread = new Thread(() -> {
             try {
                 Thread.currentThread().setName("GameMainThread");
-                mHttpServer.start(666);
+                mHttpServer.start(1666);
             } catch (Exception mEm) {
                 mEm.printStackTrace();
             }

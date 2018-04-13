@@ -1,3 +1,5 @@
+package com.itgowo.http;
+
 import com.alibaba.fastjson.JSON;
 
 import java.io.UnsupportedEncodingException;

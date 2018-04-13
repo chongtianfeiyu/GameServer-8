@@ -1,8 +1,12 @@
+package com.itgowo.http;
+
+import com.game.stzb.GameServer;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -12,7 +16,7 @@ import java.util.logging.Logger;
  * Created by hnvfh on 2017/5/25.
  */
 public class HttpServerManager {
-    private static Logger log = LogU.getLogU("HttpServerManager", Level.ALL);
+    private static Logger log = LogU.getLogU("com.itgowo.http.HttpServerManager", Level.ALL);
 
     /**
      * 业务处理逻辑第一个方法，分发业务处理逻辑
@@ -21,7 +25,6 @@ public class HttpServerManager {
         if (mHttpRequest.uri() == null) {
             return;
         }
-
         try {
             QueryStringDecoder decoderQuery = new QueryStringDecoder(mHttpRequest.uri());
             Map<String, List<String>> mUriQuery = decoderQuery.parameters();
@@ -29,43 +32,15 @@ public class HttpServerManager {
             log.info(ctx.channel().remoteAddress().toString() + "  " + mHttpRequest.method().name() + "  " + mHttpRequest.uri());
             ServerJsonEntity mServerJsonEntity = new ServerJsonEntity();
             if (mUri.startsWith("/GameSTZB")) {
-                doPush(ctx, mHttpRequest, mHttpContent, mUri, mUriQuery, mServerJsonEntity);
+                GameServer.doGame_STZB(ctx, mHttpRequest, mHttpContent, mUri, mUriQuery, mServerJsonEntity);
             }  else {
+                sendResponse(ctx,"who are you？");
             }
 
         } catch (Exception mE) {
             mE.printStackTrace();
         }
 
-    }
-
-    /**
-     * 处理推送业务
-     *
-     * @param ctx
-     * @param mHttpRequest
-     * @param mHttpContent
-     * @param mUri
-     * @param mUriQuery
-     * @param mServerJsonEntity
-     * @throws UnsupportedEncodingException
-     */
-    private static void doPush(ChannelHandlerContext ctx, HttpRequest mHttpRequest, HttpContent mHttpContent, String mUri, Map<String, List<String>> mUriQuery, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
-        switch (mUri) {
-//            case "/push/getPushMsgById"://获取推送消息详情
-//                mServerJsonEntity = PushManager.push_getPushMsgById(ctx, mUriQuery.get("pushID"));
-//                break;
-//            case "/push/getPushMsgList"://获取推送消息列表
-//                mServerJsonEntity = PushManager.push_getPushMsgList(ctx, mUriQuery.get("index"), mUriQuery.get("size"));
-//                break;
-//            case "/push/publishPushMsg"://发布推送消息
-//                mServerJsonEntity = PushManager.push_publishPushMsg(ctx, mHttpRequest, mHttpContent);
-//                break;
-//            case "/push/sendPushMsg"://向设备推送消息
-//                mServerJsonEntity = PushManager.push_sendPushMsg(ctx, mUriQuery.get("pushID"));
-//                break;
-        }
-        sendResponse(ctx, mServerJsonEntity);
     }
 
 
@@ -92,7 +67,7 @@ public class HttpServerManager {
     /**
      * 返回结果
      */
-    private static void sendResponse(ChannelHandlerContext mCtx, Object mEntity) throws UnsupportedEncodingException {
+    public static void sendResponse(ChannelHandlerContext mCtx, Object mEntity) throws UnsupportedEncodingException {
         FullHttpResponse mResponse = null;
         if (mEntity instanceof ServerJsonEntity) {
             mResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(((ServerJsonEntity) mEntity).toBytes()));
