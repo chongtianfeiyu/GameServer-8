@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="fastjson-1.2.47">
+  <library name="netty-all-4.1.15.Final">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/fastjson-1.2.47.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-all-4.1.15.Final.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

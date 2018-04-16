@@ -40,7 +40,7 @@ public class HttpServerManager {
         } catch (Exception mE) {
             mE.printStackTrace();
             try {
-                sendResponse(ctx,"Error 500,The books seem to be lost，枫林打小差了！");
+                sendResponse(ctx,"Error 500,The books seem to be lost，枫林开小差了！");
             } catch (UnsupportedEncodingException mE1) {
                 mE1.printStackTrace();
             }
@@ -64,7 +64,7 @@ public class HttpServerManager {
      */
     private static void addResponseHeaders(FullHttpResponse mResponse, boolean contentIsJson) {
         mResponse.headers().add(HttpHeaderNames.CONTENT_LENGTH, mResponse.content().readableBytes());
-        mResponse.headers().add(HttpHeaderNames.CONTENT_TYPE, contentIsJson ? "application/json" : "text/plain");
+        mResponse.headers().add(HttpHeaderNames.CONTENT_TYPE, contentIsJson ? "application/json" : "text/html;charset=utf-8");
         mResponse.headers().add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
     }
