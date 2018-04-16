@@ -31,7 +31,7 @@ public class HttpServerManager {
             String mUri = decoderQuery.path();
             log.info(ctx.channel().remoteAddress().toString() + "  " + mHttpRequest.method().name() + "  " + mHttpRequest.uri());
             ServerJsonEntity mServerJsonEntity = new ServerJsonEntity();
-            if (mUri.startsWith("/GameSTZB")) {
+            if (mUri.startsWith(GameServer.ROOTPATH)) {
                 GameServer.doGame_STZB(ctx, mHttpRequest, mHttpContent, mUri, mUriQuery, mServerJsonEntity);
             }  else {
                 sendResponse(ctx,"who are you？");
@@ -39,6 +39,11 @@ public class HttpServerManager {
 
         } catch (Exception mE) {
             mE.printStackTrace();
+            try {
+                sendResponse(ctx,"Error 500,The books seem to be lost，枫林打小差了！");
+            } catch (UnsupportedEncodingException mE1) {
+                mE1.printStackTrace();
+            }
         }
 
     }

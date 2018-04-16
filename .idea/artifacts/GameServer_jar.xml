@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="GameServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GameServer_jar</output-path>
+    <root id="archive" name="GameServer.jar">
+      <element id="module-output" name="GameServer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/netty-all-4.1.23.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.42-bin.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mybatis-3.4.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/fastjson-1.2.47.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
