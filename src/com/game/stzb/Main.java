@@ -1,3 +1,5 @@
+package com.game.stzb;
+
 import com.itgowo.http.HnHttpServer;
 
 import java.nio.charset.Charset;
