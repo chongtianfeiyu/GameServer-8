@@ -1,0 +1,11 @@
+<div style="border:thin solid  #2B7ED7">
+<div style= "display: inline-block"> <img style="padding: 5px;width: 40%"  src="https://stzb.res.netease.com/pc/qt/20170323200251/data/role/card_heroid.jpg"/></div>
+ <div style="display: inline-block;float: left;width:160px;padding:5px">
+  <li>武将名：heroname</li>
+  <li>阵营：herocontory</li>
+  <li>cost：herocost</li>
+  <li>稀有度：heroquality</li>
+  <li>兵种：herotype</li>
+</div>
+
+</div>

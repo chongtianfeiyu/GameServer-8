@@ -63,7 +63,7 @@ public class HttpServerManager {
      */
     private static void addResponseHeaders(FullHttpResponse mResponse, boolean contentIsJson) {
         mResponse.headers().add(HttpHeaderNames.CONTENT_LENGTH, mResponse.content().readableBytes());
-        mResponse.headers().add(HttpHeaderNames.CONTENT_TYPE, contentIsJson ? "application/json" : "text/plain");
+        mResponse.headers().add(HttpHeaderNames.CONTENT_TYPE, contentIsJson ? "application/json" : "text/html;charset=utf-8");
         mResponse.headers().add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
     }

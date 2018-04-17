@@ -13,6 +13,7 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.util.CharsetUtil;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,9 @@ public class GameServer extends GameSTZBDao {
 
             }
             BaseRequest mRequest = new BaseRequest().setToken("aaaaaaaaaaaaaaaa").setData(JSON.toJSONString(new BaseRequest.getRandomHeroEntity().setRandomNum(num)));
-            HttpServerManager.sendResponse(ctx, mServerJsonEntity.setData(getRandomHero(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity)));
+            List<HeroEntity > mHeroEntities =getRandomHero(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity);
+
+            HttpServerManager.sendResponse(ctx, htmlCreator .getRandomHeroHtml(mHeroEntities ) );
 
         } else {
             BaseRequest mRequest = JSON.parseObject(mHttpContent.content().toString(CharsetUtil.UTF_8), BaseRequest.class);
