@@ -6,7 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,14 +32,14 @@ public class HttpServerManager {
             ServerJsonEntity mServerJsonEntity = new ServerJsonEntity();
             if (mUri.startsWith(GameServer.ROOTPATH)) {
                 GameServer.doGame_STZB(ctx, mHttpRequest, mHttpContent, mUri, mUriQuery, mServerJsonEntity);
-            }  else {
-                sendResponse(ctx,"who are you？");
+            } else {
+                sendResponse(ctx, new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The path to be lost，请求地址没有匹配到，请检查uri！ 枫林开小差了！"));
             }
 
         } catch (Exception mE) {
             mE.printStackTrace();
             try {
-                sendResponse(ctx,"Error 500,The books seem to be lost，枫林打小差了！");
+                sendResponse(ctx, new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The path to be lost，请求地址没有匹配到，请检查uri！ 枫林开小差了！"));
             } catch (UnsupportedEncodingException mE1) {
                 mE1.printStackTrace();
             }

@@ -88,6 +88,8 @@ public class GameServer extends GameSTZBDao {
                 case REGUSER:
                     registerUser(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity);
                     break;
+                default:
+                    HttpServerManager.sendResponse(ctx, new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The action to be lost，请求动作没有找到，请检查参数是否正确！  枫林开小差了！"));
             }
         }
     }
