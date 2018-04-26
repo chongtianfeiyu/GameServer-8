@@ -1,5 +1,6 @@
 package com.itgowo.http;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -13,7 +14,7 @@ import io.netty.handler.codec.http.HttpRequest;
  */
 public class HttpServerInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     private HttpRequest mHttpRequest;
-    private HttpContent mHttpContent;
+    private String data = "";
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -21,7 +22,11 @@ public class HttpServerInboundHandlerAdapter extends ChannelInboundHandlerAdapte
             mHttpRequest = (HttpRequest) msg;
         }
         if (msg instanceof HttpContent) {
-            mHttpContent = (HttpContent) msg;
+            HttpContent content = (HttpContent) msg;
+            ByteBuf buf = content.content();
+            String temp = buf.toString(io.netty.util.CharsetUtil.UTF_8);
+            data += temp;
+            buf.release();
         }
     }
 
@@ -39,8 +44,8 @@ public class HttpServerInboundHandlerAdapter extends ChannelInboundHandlerAdapte
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        if (mHttpRequest != null && mHttpContent != null) {
-            HttpServerManager.onReceiveHandleFirst(ctx, mHttpRequest, mHttpContent);
+        if (mHttpRequest != null && data != null) {
+            HttpServerManager.onReceiveHandleFirst(ctx, mHttpRequest,data);
         }
         ctx.close();
     }

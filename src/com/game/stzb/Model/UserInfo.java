@@ -1,5 +1,7 @@
 package com.game.stzb.Model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -30,7 +32,7 @@ public class UserInfo {
     private Integer seed5;
     private int logintype;
     private String logininfo;
-
+    @JSONField(serialize = false)
     public synchronized int getRandomHeroType() {
         int temp = sRandom.nextInt(getSeedCount());
         if (temp < getSeed5()) {
@@ -55,6 +57,7 @@ public class UserInfo {
         return mHeroEntities.get(sRandom.nextInt(mHeroEntities.size()));
     }
 
+    @JSONField(serialize = false)
     public int getSeedCount() {
         return seed1 + seed2 + seed3 + seed4 + seed5;
     }

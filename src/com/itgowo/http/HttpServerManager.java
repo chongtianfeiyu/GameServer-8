@@ -20,7 +20,7 @@ public class HttpServerManager {
     /**
      * 业务处理逻辑第一个方法，分发业务处理逻辑
      */
-    public static void onReceiveHandleFirst(ChannelHandlerContext ctx, HttpRequest mHttpRequest, HttpContent mHttpContent) {
+    public static void onReceiveHandleFirst(ChannelHandlerContext ctx, HttpRequest mHttpRequest,String body) {
         if (mHttpRequest.uri() == null) {
             return;
         }
@@ -31,7 +31,7 @@ public class HttpServerManager {
             log.info(ctx.channel().remoteAddress().toString() + "  " + mHttpRequest.method().name() + "  " + mHttpRequest.uri());
             ServerJsonEntity mServerJsonEntity = new ServerJsonEntity();
             if (mUri.startsWith(GameServer.ROOTPATH)) {
-                GameServer.doGame_STZB(ctx, mHttpRequest, mHttpContent, mUri, mUriQuery, mServerJsonEntity);
+                GameServer.doGame_STZB(ctx, mHttpRequest, body, mUri, mUriQuery, mServerJsonEntity);
             } else {
                 sendResponse(ctx, new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The path to be lost，请求地址没有匹配到，请检查uri！ 枫林开小差了！"));
             }
