@@ -11,21 +11,20 @@ import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.util.CharsetUtil;
+import org.apache.ibatis.io.Resources;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import static com.game.stzb.Model.UserInfo.*;
 
 public class GameServer extends GameSTZBDao {
     public static final String ROOTPATH = "/GameSTZB";
-    public static final String GETRANDOMHERO = "getRandomHero";
-    public static final String GETHEROLIST = "getHeroList";
-    public static final String REGUSER = "regUser";
+
 
     public static List<HeroEntity> sHeroAll = new Vector<>();
     public static List<HeroEntity> sHero5 = new Vector<>();
@@ -36,6 +35,7 @@ public class GameServer extends GameSTZBDao {
 
     static {
         initData();
+//        initHeroData();
     }
 
     private static void initData() {
@@ -72,23 +72,22 @@ public class GameServer extends GameSTZBDao {
                 } catch (Exception mE) {
                     mE.printStackTrace();
                 }
-
             }
             BaseRequest mRequest = new BaseRequest().setToken("aaaaaaaaaaaaaaaa").setData(JSON.toJSONString(new BaseRequest.getRandomHeroEntity().setRandomNum(num)));
-            List<HeroEntity > mHeroEntities =getRandomHero(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity);
+            List<HeroEntity> mHeroEntities = getRandomHero(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity);
 
-            HttpServerManager.sendResponse(ctx, htmlCreator .getRandomHeroHtml(mHeroEntities ) );
+            HttpServerManager.sendResponse(ctx, htmlCreator.getRandomHeroHtml(mHeroEntities));
 
         } else {
             BaseRequest mRequest = JSON.parseObject(mHttpContent.content().toString(CharsetUtil.UTF_8), BaseRequest.class);
             switch (mRequest.getAction()) {
-                case GETRANDOMHERO:
+                case BaseRequest.GET_RANDOM_HERO:
                     HttpServerManager.sendResponse(ctx, mServerJsonEntity.setData(getRandomHero(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity)));
                     break;
-                case GETHEROLIST:
+                case BaseRequest.GET_HERO_LIST:
                     HttpServerManager.sendResponse(ctx, mServerJsonEntity.setData(getHeroList()));
                     break;
-                case REGUSER:
+                case BaseRequest.REG_USER:
                     registerUser(ctx, mHttpRequest, mRequest, mUri, mUriQuery, mServerJsonEntity);
                     break;
                 default:
@@ -103,19 +102,19 @@ public class GameServer extends GameSTZBDao {
         List<HeroEntity> mHeroEntities = new ArrayList<>();
         for (int mI = 0; mI < mNum; mI++) {
             switch (mUserInfo.getRandomHeroType()) {
-                case HERO1:
+                case UserInfo.HERO1:
                     mHeroEntities.add(mUserInfo.getRandomHero(sHero1));
                     break;
-                case HERO2:
+                case UserInfo.HERO2:
                     mHeroEntities.add(mUserInfo.getRandomHero(sHero2));
                     break;
-                case HERO3:
+                case UserInfo.HERO3:
                     mHeroEntities.add(mUserInfo.getRandomHero(sHero3));
                     break;
-                case HERO4:
+                case UserInfo.HERO4:
                     mHeroEntities.add(mUserInfo.getRandomHero(sHero4));
                     break;
-                case HERO5:
+                case UserInfo.HERO5:
                     mHeroEntities.add(mUserInfo.getRandomHero(sHero5));
                     break;
             }
@@ -123,9 +122,10 @@ public class GameServer extends GameSTZBDao {
         return mHeroEntities;
     }
 
-    private static void registerUser(ChannelHandlerContext ctx, HttpRequest mHttpRequest, BaseRequest mRequest, String mUri, Map<String, List<String>> mUriQuery, ServerJsonEntity mServerJsonEntity) {
+    private static void registerUser(ChannelHandlerContext ctx, HttpRequest mHttpRequest, BaseRequest mRequest, String mUri, Map<String, List<String>> mUriQuery, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
         UserInfo mUserInfo = JSON.parseObject(mRequest.getData(), UserInfo.class);
-        registerUser(mUserInfo);
+        mUserInfo = registerOrLoginUser(mUserInfo);
+        HttpServerManager.sendResponse(ctx, mServerJsonEntity.setData(mUserInfo));
     }
 
 
@@ -146,5 +146,22 @@ public class GameServer extends GameSTZBDao {
 //        } else {
 //            entity = heroEntities.get(137 + random.nextInt(84));
 //        }
+    }
+
+    public static void initHeroData() {
+        try {
+            InputStream mInputStream = Resources.getResourceAsStream("config/herolist");
+            byte[] mBytes = new byte[mInputStream.available()];
+            mInputStream.read(mBytes);
+            String temp = new String(mBytes, "utf-8");
+            List<HeroEntity> mHeroEntities = JSON.parseArray(temp, HeroEntity.class);
+            long time = System.currentTimeMillis();
+            for (int mI = 0; mI < mHeroEntities.size(); mI++) {
+                addHero(mHeroEntities.get(mI));
+            }
+            System.out.println(System.currentTimeMillis() - time);
+        } catch (IOException mE) {
+            mE.printStackTrace();
+        }
     }
 }

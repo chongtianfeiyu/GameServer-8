@@ -11,6 +11,9 @@ public class UserInfo {
     public static final int HERO3 = 3;
     public static final int HERO2 = 2;
     public static final int HERO1 = 1;
+    public static final int LOGIN_TYPE_WEIXIN = 1;
+    public static final int LOGIN_TYPE_QQ = 2;
+    public static final int LOGIN_TYPE_AUTO = 0;
     private String name;
     private String uuid;
     private String pwd;
@@ -20,11 +23,13 @@ public class UserInfo {
     private String imei;
     private int id;
     private Date lastlogin;
-    private int seed1;
-    private int seed2;
-    private int seed3;
-    private int seed4;
-    private int seed5;
+    private Integer seed1;
+    private Integer seed2;
+    private Integer seed3;
+    private Integer seed4;
+    private Integer seed5;
+    private int logintype;
+    private String logininfo;
 
     public synchronized int getRandomHeroType() {
         int temp = sRandom.nextInt(getSeedCount());
@@ -54,20 +59,38 @@ public class UserInfo {
         return seed1 + seed2 + seed3 + seed4 + seed5;
     }
 
-    public int getSeed3() {
+    public Integer getSeed3() {
         return seed3;
     }
 
-    public int getSeed1() {
+    public Integer getSeed1() {
         return seed1;
     }
 
-    public int getSeed2() {
+    public Integer getSeed2() {
         return seed2;
     }
 
     public UserInfo setSeed1(int mSeed1) {
         seed1 = mSeed1;
+        return this;
+    }
+
+    public int getLogintype() {
+        return logintype;
+    }
+
+    public UserInfo setLogintype(int mLogintype) {
+        logintype = mLogintype;
+        return this;
+    }
+
+    public String getLogininfo() {
+        return logininfo;
+    }
+
+    public UserInfo setLogininfo(String mLogininfo) {
+        logininfo = mLogininfo;
         return this;
     }
 
@@ -81,7 +104,7 @@ public class UserInfo {
         return this;
     }
 
-    public int getSeed4() {
+    public Integer getSeed4() {
         return seed4;
     }
 
@@ -90,7 +113,7 @@ public class UserInfo {
         return this;
     }
 
-    public int getSeed5() {
+    public Integer getSeed5() {
         return seed5;
     }
 

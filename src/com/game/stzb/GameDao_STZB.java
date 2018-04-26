@@ -79,8 +79,8 @@ public interface GameDao_STZB {
      * @return
      * @throws Exception
      */
-    @Insert(" insert into  ${tablename} ( `uuid`, `name`, `pwd`, `head`, `nickname`, `phone`) values" +
-            " (#{bean.uuid},#{bean.name},#{bean.pwd},#{bean.head},#{bean.nickname},#{bean.phone})")
+    @Insert(" insert into  ${tablename} ( `uuid`, `name`, `pwd`, `head`, `nickname`, `phone`, `logintype`, `logininfo`) values" +
+            " (#{bean.uuid},#{bean.name},#{bean.pwd},#{bean.head},#{bean.nickname},#{bean.phone},#{bean.logintype},#{bean.logininfo})")
     public int addUser(@Param("tablename") String tablename, @Param("bean") UserInfo mEntity) throws Exception;
 
     /**

@@ -113,14 +113,18 @@ public class GameSTZBDao {
             }
         }
     }
-    public static UserInfo registerUser(UserInfo mUserInfo) {
+    public static UserInfo registerOrLoginUser(UserInfo mUserInfo) {
         SqlSession session = null;
         try {
             session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
             GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
-            int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
-            int userid = mGameDao_stzb.getLastID();
-            mUserInfo = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
+            if (mUserInfo.getUuid()==null||mUserInfo.getUuid().length()<10){
+                int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
+                int userid = mGameDao_stzb.getLastID();
+                mUserInfo = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
+            }else {
+                mUserInfo = mGameDao_stzb.getUserByUUID(DBManager.STZB_DATATABLE_USER, mUserInfo.getUuid());
+            }
             mUserInfo.setPwd(null);
             session.commit(true);
             return mUserInfo;
