@@ -7,11 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="992ddd98-a3ef-4ec5-aa66-d83d7ef44956" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/game/stzb/Model/UpdateVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/game/stzb/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/DBManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/game/stzb/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/stzb/Model/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/Model/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itgowo/http/HttpServerInboundHandlerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itgowo/http/HttpServerInboundHandlerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,27 +22,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GameSTZBDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java">
+      <file leaf-file-name="BaseRequest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/BaseRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="75" column="27" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
-              <folding>
-                <element signature="method#addHero#0;class#GameSTZBDao#0" />
-                <element signature="method#getHeroList#0;class#GameSTZBDao#0" />
-                <element signature="method#getUserInfo#0;class#GameSTZBDao#0" />
-                <element signature="method#updateUserLoginTime#0;class#GameSTZBDao#0" />
-                <element signature="method#registerOrLoginUser#0;class#GameSTZBDao#0" />
-              </folding>
+            <state relative-caret-position="795">
+              <caret line="67" selection-start-line="67" selection-end-line="67" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="82" column="104" selection-start-line="82" selection-start-column="104" selection-end-line="82" selection-end-column="104" />
+            <state relative-caret-position="271">
+              <caret line="75" selection-start-line="75" selection-end-line="75" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#initData#0;class#GameServer#0" />
@@ -50,6 +43,29 @@
                 <element signature="method#goodluck#0;class#GameServer#0" />
                 <element signature="method#initHeroData#0;class#GameServer#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LICENSE" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="HnHttpServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HnHttpServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="52" selection-start-line="52" selection-end-line="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HttpServerManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1005">
+              <caret line="76" column="45" selection-start-line="76" selection-start-column="45" selection-end-line="76" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -62,6 +78,14 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <replaceStrings>
+      <replace>private String</replace>
+      <replace>private String</replace>
+      <replace>private String</replace>
+      <replace>;private String</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,9 +101,11 @@
         <option value="$PROJECT_DIR$/src/com/game/stzb/GameDao_STZB.java" />
         <option value="$PROJECT_DIR$/src/com/game/stzb/Model/BaseRequest.java" />
         <option value="$PROJECT_DIR$/src/com/game/stzb/Model/UserInfo.java" />
-        <option value="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" />
         <option value="$PROJECT_DIR$/src/com/itgowo/http/HttpServerInboundHandlerAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java" />
+        <option value="$PROJECT_DIR$/src/com/game/stzb/Model/UpdateVersion.java" />
+        <option value="$PROJECT_DIR$/src/com/game/stzb/DBManager.java" />
+        <option value="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" />
         <option value="$PROJECT_DIR$/src/com/game/stzb/GameServer.java" />
       </list>
     </option>
@@ -90,19 +116,19 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="374" />
-    <option name="y" value="50" />
-    <option name="width" value="1266" />
-    <option name="height" value="932" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="97" />
+    <option name="y" value="460" />
+    <option name="width" value="1508" />
+    <option name="height" value="750" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,46 +140,6 @@
               <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
               <item name="GameServer" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="netty-all-4.1.23.Final-sources.jar" type="ab9368bb:PsiFileNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="netty-all-4.1.23.Final-sources.jar" type="ab9368bb:PsiFileNode" />
-              <item name="netty" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="netty-all-4.1.23.Final-sources.jar" type="ab9368bb:PsiFileNode" />
-              <item name="netty" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="netty-all-4.1.23.Final-sources.jar" type="ab9368bb:PsiFileNode" />
-              <item name="netty" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="netty-all-4.1.23.Final-sources.jar" type="ab9368bb:PsiFileNode" />
-              <item name="netty" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-              <item name="helloworld" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
@@ -172,45 +158,6 @@
               <item name="out" type="462c0819:PsiDirectoryNode" />
               <item name="artifacts" type="462c0819:PsiDirectoryNode" />
               <item name="GameServer_jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="stzb" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="stzb" type="462c0819:PsiDirectoryNode" />
-              <item name="Model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GameServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GameServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -329,18 +276,25 @@
       <workItem from="1524712977745" duration="6998000" />
       <workItem from="1524747662599" duration="159000" />
       <workItem from="1524757778776" duration="5859000" />
+      <workItem from="1525682751415" duration="1555000" />
+      <workItem from="1525766815657" duration="3158000" />
+      <workItem from="1525858303196" duration="407000" />
+      <workItem from="1525861513588" duration="263000" />
+      <workItem from="1525946964145" duration="261000" />
+      <workItem from="1526895212382" duration="331000" />
+      <workItem from="1526898160397" duration="740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26201000" />
+    <option name="totallyTimeSpent" value="32916000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="374" y="50" width="1266" height="932" extended-state="0" />
+    <frame x="97" y="460" width="1508" height="750" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32814372" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5033113" side_tool="true" weight="0.4" />
       <window_info anchor="right" id="Maven Projects" order="3" />
@@ -349,7 +303,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32814372" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32934132" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28267974" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.260573" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -359,6 +313,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32814372" />
       <window_info anchor="right" id="Line Counter" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -382,13 +337,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java</url>
-          <line>156</line>
+          <line>155</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java</url>
-          <line>123</line>
+          <line>122</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
@@ -409,51 +364,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="65" selection-start-line="65" selection-end-line="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="125" column="17" selection-start-line="125" selection-start-column="17" selection-end-line="125" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#initData#0;class#GameServer#0" />
-            <element signature="docComment;method#goodluck#0;class#GameServer#0" />
-            <element signature="method#goodluck#0;class#GameServer#0" />
-            <element signature="method#initHeroData#0;class#GameServer#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/htmlCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/config/html_random2">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -600,13 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HnHttpServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/mybatis-3.4.4.jar!/org/apache/ibatis/io/ClassLoaderWrapper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
@@ -626,13 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/DBManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="96" lean-forward="true" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="96" />
         </state>
       </provider>
     </entry>
@@ -667,32 +563,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameDao_STZB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="81" column="94" selection-start-line="81" selection-start-column="94" selection-end-line="81" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/UserInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1853">
           <caret line="34" column="32" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
-          <folding>
-            <element signature="e#1750#1751#0" expanded="true" />
-            <element signature="e#1810#1811#0" expanded="true" />
-            <element signature="e#2121#2122#0" expanded="true" />
-            <element signature="e#2153#2154#0" expanded="true" />
-            <element signature="e#2300#2301#0" expanded="true" />
-            <element signature="e#2332#2333#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/BaseRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="13" column="18" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -759,13 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="33" column="31" lean-forward="true" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerInboundHandlerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -773,24 +640,80 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/netty-all-4.1.23.Final-sources.jar!/io/netty/handler/codec/http/FullHttpResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/netty-all-4.1.23.Final-sources.jar!/io/netty/handler/codec/http/HttpMessageUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/netty-all-4.1.23.Final-sources.jar!/io/netty/handler/codec/http/DefaultFullHttpResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="193" column="38" lean-forward="true" selection-start-line="193" selection-start-column="38" selection-end-line="193" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1005">
+          <caret line="76" column="45" selection-start-line="76" selection-start-column="45" selection-end-line="76" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/UpdateVersion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="29" lean-forward="true" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameDao_STZB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="75" column="27" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
-          <folding>
-            <element signature="method#addHero#0;class#GameSTZBDao#0" />
-            <element signature="method#getHeroList#0;class#GameSTZBDao#0" />
-            <element signature="method#getUserInfo#0;class#GameSTZBDao#0" />
-            <element signature="method#updateUserLoginTime#0;class#GameSTZBDao#0" />
-            <element signature="method#registerOrLoginUser#0;class#GameSTZBDao#0" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/DBManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="49" column="110" selection-start-line="49" selection-start-column="110" selection-end-line="49" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/BaseRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HnHttpServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="82" column="104" selection-start-line="82" selection-start-column="104" selection-end-line="82" selection-end-column="104" />
+        <state relative-caret-position="271">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#initData#0;class#GameServer#0" />
@@ -800,6 +723,9 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">
