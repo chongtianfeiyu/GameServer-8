@@ -1,6 +1,5 @@
 package com.game.stzb;
 
-import com.game.stzb.Model.UpdateVersion;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -19,7 +18,7 @@ public class DBManager {
     private static SqlSessionFactoryBuilder mSqlSessionFactoryBuilder;
     private static InputStream configFileInputStream;
 
-    public static SqlSessionFactory getSqlSessionFactory(Class mClass){
+    public static SqlSessionFactory getSqlSessionFactory(Class mClass) {
         if (mSqlSessionFactoryBuilder == null) {
             mSqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
         }
@@ -36,7 +35,8 @@ public class DBManager {
         }
         return mSqlSessionFactory;
     }
-    public static SqlSessionFactory getSqlSessionFactory4Version(Class mClass){
+
+    public static SqlSessionFactory getSqlSessionFactory4Version(Class mClass) {
         if (mSqlSessionFactoryBuilder == null) {
             mSqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
         }

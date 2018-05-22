@@ -24,6 +24,7 @@ public interface GameDao_STZB {
             " (#{bean.id},#{bean.name},#{bean.contory},#{bean.siege},#{bean.speed},#{bean.skillId},#{bean.cost},#{bean.type},#{bean.quality},#{bean.icon},#{bean.url})")
     @Results(@Result(column = "id", property = "pushID"))
     public int addHero(@Param("tablename") String tablename, @Param("bean") HeroEntity mEntity) throws Exception;
+
     /**
      * 查询记录byID
      *
@@ -34,6 +35,7 @@ public interface GameDao_STZB {
      */
     @Select("select * from ${tablename} where id=#{id}")
     public HeroEntity getHeroByID(@Param("tablename") String tablename, @Param("id") int mId) throws Exception;
+
     /**
      * 查询数据
      *
@@ -50,6 +52,7 @@ public interface GameDao_STZB {
     //    @Select("select @@identity")
     @Select("select LAST_INSERT_ID()")
     public int getLastID() throws Exception;
+
     /**
      * 查询用户byUUID
      *
@@ -60,6 +63,7 @@ public interface GameDao_STZB {
      */
     @Select("select * from ${tablename} where id=#{id}")
     public UserInfo getUserByID(@Param("tablename") String tablename, @Param("id") int mId) throws Exception;
+
     /**
      * 查询用户byUUID
      *
@@ -85,6 +89,7 @@ public interface GameDao_STZB {
 
     /**
      * 刷新时间
+     *
      * @param tablename
      * @param id
      */
