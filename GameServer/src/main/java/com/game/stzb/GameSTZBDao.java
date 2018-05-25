@@ -1,5 +1,8 @@
 package com.game.stzb;
 
+import com.alibaba.fastjson.JSONObject;
+import com.game.stzb.Model.BaseRequest;
+import com.game.stzb.Model.HeroDetailEntity;
 import com.game.stzb.Model.HeroEntity;
 import com.game.stzb.Model.UserInfo;
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSTZBDao {
-    public static int addHero(HeroEntity mHeroEntity) {
+    public static int addHero(HeroDetailEntity mHeroEntity) {
         SqlSession session = null;
         try {
             session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
@@ -49,6 +52,49 @@ public class GameSTZBDao {
             }
         }
         return new ArrayList<>();
+    }
+    public static List<HeroDetailEntity> getHeroDetailList() {
+        SqlSession session = null;
+        List<HeroDetailEntity> mHeroEntities;
+        try {
+            session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
+            GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
+            mHeroEntities = mGameDao_stzb.getHeroDetailList(DBManager.STZB_DATATABLE_HERO, 0, 1000);
+            session.commit(true);
+            return mHeroEntities;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session != null) {
+                session.rollback(true);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return new ArrayList<>();
+    }
+    public static HeroDetailEntity getHeroInfo(BaseRequest request) {
+        SqlSession session = null;
+        HeroDetailEntity heroBean;
+        try {
+            int id = request.getData(BaseRequest.DataEntity.class).getId();
+            session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
+            GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
+            heroBean = mGameDao_stzb.getHeroByID(DBManager.STZB_DATATABLE_HERO, id);
+            session.commit(true);
+            return heroBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session != null) {
+                session.rollback(true);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return null;
     }
 
     public static UserInfo getUserInfo(int id) {
@@ -120,6 +166,25 @@ public class GameSTZBDao {
         }
     }
 
+    public static void updateHeroAllInfoColumn(int id, String allinfo) {
+        SqlSession session = null;
+        try {
+            session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
+            GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
+            mGameDao_stzb.updateHeroAllInfoColumn(DBManager.STZB_DATATABLE_HERO, id, allinfo);
+            session.commit(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session != null) {
+                session.rollback(true);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public static UserInfo registerOrLoginUser(UserInfo mUserInfo) {
         SqlSession session = null;
         try {
@@ -130,6 +195,8 @@ public class GameSTZBDao {
                 int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
                 int userid = mGameDao_stzb.getLastID();
                 mUserInfo1 = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
+            } else {
+                updateUserLoginTime(mUserInfo1.getId());
             }
             mUserInfo1.setPwd(null);
             session.commit(true);

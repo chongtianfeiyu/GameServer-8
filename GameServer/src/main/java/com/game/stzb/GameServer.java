@@ -1,17 +1,23 @@
 package com.game.stzb;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.game.stzb.Model.BaseRequest;
+import com.game.stzb.Model.HeroDetailEntity;
 import com.game.stzb.Model.HeroEntity;
 import com.game.stzb.Model.UserInfo;
 import com.itgowo.SimpleServerCore.Http.HttpServerHandler;
 import com.itgowo.http.ServerJsonEntity;
 import io.netty.handler.codec.http.HttpMethod;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -55,6 +61,7 @@ public class GameServer extends GameSTZBDao {
                     break;
             }
         }
+
     }
 
     public static void doGame_STZB(HttpServerHandler handler, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
@@ -68,18 +75,29 @@ public class GameServer extends GameSTZBDao {
                     mE.printStackTrace();
                 }
             }
-            BaseRequest mRequest = new BaseRequest().setToken("aaaaaaaaaaaaaaaa").setData(JSON.toJSONString(new BaseRequest.getRandomHeroEntity().setRandomNum(num)));
+            BaseRequest mRequest = new BaseRequest().setToken("aaaaaaaaaaaaaaaa").setData(JSON.toJSONString(new BaseRequest.DataEntity().setRandomNum(num)));
             List<HeroEntity> mHeroEntities = getRandomHero(mRequest);
             handler.sendData(htmlCreator.getRandomHeroHtml(mHeroEntities), false);
 
         } else {
-            BaseRequest mRequest = JSON.parseObject(handler.getBody(), BaseRequest.class);
+            BaseRequest mRequest = JSON.parseObject(handler.getBody(Charset.defaultCharset()), BaseRequest.class);
             switch (mRequest.getAction()) {
                 case BaseRequest.GET_RANDOM_HERO:
                     handler.sendData(mServerJsonEntity.setData(getRandomHero(mRequest)), true);
                     break;
                 case BaseRequest.GET_HERO_LIST:
                     handler.sendData(mServerJsonEntity.setData(getHeroList()), true);
+                    break;
+                case BaseRequest.GET_HERO_DETAIL_LIST:
+                    handler.sendData(mServerJsonEntity.setData(getHeroDetailList()), true);
+                    break;
+                case BaseRequest.GET_HERO_INFO:
+                    HeroDetailEntity entity = getHeroInfo(mRequest);
+                    if (entity == null) {
+                        handler.sendData(mServerJsonEntity.setCode(ServerJsonEntity.Code404).setMsg("未找到该武将"), true);
+                    } else {
+                        handler.sendData(mServerJsonEntity.setData(entity), true);
+                    }
                     break;
                 case BaseRequest.REG_USER:
                     registerUser(handler, mRequest, mServerJsonEntity);
@@ -91,7 +109,7 @@ public class GameServer extends GameSTZBDao {
     }
 
     private static List<HeroEntity> getRandomHero(BaseRequest mRequest) {
-        int mNum = mRequest.getData(BaseRequest.getRandomHeroEntity.class).getRandomNum();
+        int mNum = mRequest.getData(BaseRequest.DataEntity.class).getRandomNum();
         UserInfo mUserInfo = getUserInfo(mRequest.getToken());
         List<HeroEntity> mHeroEntities = new ArrayList<>();
         for (int mI = 0; mI < mNum; mI++) {
@@ -149,13 +167,55 @@ public class GameServer extends GameSTZBDao {
             mInputStream.read(mBytes);
             String temp = new String(mBytes, "utf-8");
             List<HeroEntity> mHeroEntities = JSON.parseArray(temp, HeroEntity.class);
-            long time = System.currentTimeMillis();
-            for (int mI = 0; mI < mHeroEntities.size(); mI++) {
-                addHero(mHeroEntities.get(mI));
+            InputStream mInputStream2 = Resources.getResourceAsStream("config/herolist2");
+            byte[] mBytes2 = new byte[mInputStream2.available()];
+            mInputStream2.read(mBytes2);
+            String temp2 = new String(mBytes2, "utf-8");
+            List<HeroDetailEntity> mHeroEntities2 = JSON.parseArray(temp2, HeroDetailEntity.class);
+            for (int i = mHeroEntities2.size() - 1; i >= 0; i--) {
+                for (int size = mHeroEntities.size() - 1; size >= 0; size--) {
+                    if (mHeroEntities.get(size).getId() == mHeroEntities2.get(i).getId()) {
+                        mHeroEntities.remove(size);
+                        mHeroEntities2.remove(i);
+                        break;
+                    }
+                }
             }
-            System.out.println(System.currentTimeMillis() - time);
+            for (int i = 0; i < mHeroEntities2.size(); i++) {
+                System.out.println(String.format("https://stzb.res.netease.com/pc/qt/20170323200251/data/role/card_%s.jpg", mHeroEntities2.get(i).getId()));
+            }
+            for (int i = 0; i < mHeroEntities.size(); i++) {
+                System.out.println(mHeroEntities.get(i).getId() + mHeroEntities.get(i).getName());
+            }
         } catch (IOException mE) {
             mE.printStackTrace();
         }
     }
+
+    private static String NetHeroAllInfoURL = "https://app.gamer.163.com/game-db/g10/hero";
+
+
+    public static void updateHeroAllInfoColumn() throws IOException {
+        List<HeroEntity> list = GameServer.getHeroList();
+        list.sort((o1, o2) -> o1.getId() - o2.getId());
+//        for (int i = 0; i < list.size(); i++) {
+//            System.out.println(list.get(i).getId() + list.get(i).getName());
+        OkHttpClient client = new OkHttpClient();
+        // Create request for remote resource.
+        Request request = new Request.Builder().url(NetHeroAllInfoURL).build();
+        Response response = client.newCall(request).execute();
+        String bodyjson = response.body().string();
+        JSONObject jsonObject = JSON.parseObject(bodyjson);
+        JSONObject jsonObject1 = jsonObject.getJSONObject("hero");
+        List<HeroDetailEntity> list1 = new ArrayList<>();
+        for (String s : jsonObject1.keySet()) {
+            HeroDetailEntity heroBean = jsonObject1.getJSONObject(s).toJavaObject(HeroDetailEntity.class);
+            list1.add(heroBean);
+//            GameSTZBDao.addHero(heroBean);
+        }
+        String ss = JSON.toJSONString(list1);
+        List<HeroDetailEntity> heroBeans = JSON.parseArray(ss, HeroDetailEntity.class);
+        System.out.println(11);
+    }
+
 }

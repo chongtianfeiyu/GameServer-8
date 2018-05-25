@@ -1,5 +1,6 @@
 package com.game.stzb;
 
+import com.game.stzb.Model.HeroDetailEntity;
 import com.game.stzb.Model.HeroEntity;
 import com.game.stzb.Model.UserInfo;
 import org.apache.ibatis.annotations.*;
@@ -20,10 +21,24 @@ public interface GameDao_STZB {
      * @return
      * @throws Exception
      */
-    @Insert(" insert into  ${tablename} (`id`, `name`, `contory`, `siege`, `speed`, `skillId`, `cost`, `type`, `quality`, `icon`, `url`) values" +
-            " (#{bean.id},#{bean.name},#{bean.contory},#{bean.siege},#{bean.speed},#{bean.skillId},#{bean.cost},#{bean.type},#{bean.quality},#{bean.icon},#{bean.url})")
-    @Results(@Result(column = "id", property = "pushID"))
-    public int addHero(@Param("tablename") String tablename, @Param("bean") HeroEntity mEntity) throws Exception;
+    @Insert("insert into ${tablename} \n" +
+            "( `id`, `name`, `contory`, `quality`, `cost`, \n" +
+            "`type`, `distance`, `attack`, `attGrow`, `def`,\n" +
+            "`defGrow`, `ruse`, `ruseGrow`, `siege`, `siegeGrow`,\n" +
+            "`speed`, `speedGrow`, `sex`, `icon`,\n" +
+            "`desc`, `groudArr`, `groupName`, `methodId`, `methodDesc`,\n" +
+            "`methodName`, `methodId1`, `methodDesc1`, `methodName1`, `methodId2`,\n" +
+            "`methodDesc2`, `methodName2`, `uniqueName`, `groups`) \n" +
+            "values (\n" +
+            "#{bean.id},#{bean.name},#{bean.contory},#{bean.quality},#{bean.cost},\n" +
+            "#{bean.type},#{bean.distance},#{bean.attack},#{bean.attGrow},#{bean.def},\n" +
+            "#{bean.defGrow},#{bean.ruse},#{bean.ruseGrow},#{bean.siege},#{bean.siegeGrow},\n" +
+            "#{bean.speed},#{bean.speedGrow},#{bean.sex},#{bean.icon},\n" +
+            "#{bean.desc},#{bean.groudArr},#{bean.groupName},#{bean.methodId},#{bean.methodDesc},\n" +
+            "#{bean.methodName},#{bean.methodId1},#{bean.methodDesc1},#{bean.methodName1},#{bean.methodId2},\n" +
+            "#{bean.methodDesc2},#{bean.methodName2},#{bean.uniqueName},#{bean.groups});")
+    @Results(@Result(column = "id"))
+    public int addHero(@Param("tablename") String tablename, @Param("bean") HeroDetailEntity mEntity) throws Exception;
 
     /**
      * 查询记录byID
@@ -34,10 +49,10 @@ public interface GameDao_STZB {
      * @throws Exception
      */
     @Select("select * from ${tablename} where id=#{id}")
-    public HeroEntity getHeroByID(@Param("tablename") String tablename, @Param("id") int mId) throws Exception;
+    public HeroDetailEntity getHeroByID(@Param("tablename") String tablename, @Param("id") int mId) throws Exception;
 
     /**
-     * 查询数据
+     * 获取武将列表，简单数据
      *
      * @param tablename
      * @param mIndex
@@ -47,6 +62,17 @@ public interface GameDao_STZB {
      */
     @Select("select * from ${tablename} limit #{index},#{limit}")
     public List<HeroEntity> getHeroList(@Param("tablename") String tablename, @Param("index") int mIndex, @Param("limit") int mLimit) throws Exception;
+    /**
+     * 获取武将列表，详细
+     *
+     * @param tablename
+     * @param mIndex
+     * @param mLimit
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from ${tablename} limit #{index},#{limit}")
+    public List<HeroDetailEntity> getHeroDetailList(@Param("tablename") String tablename, @Param("index") int mIndex, @Param("limit") int mLimit) throws Exception;
 
 
     //    @Select("select @@identity")
@@ -95,5 +121,13 @@ public interface GameDao_STZB {
      */
     @Update("update ${tablename} set lastlogin = now() where id =#{id}")
     public void updateLastLoginTime(@Param("tablename") String tablename, @Param("id") int id);
+    /**
+     * 更新武将完整数据字段
+     *
+     * @param tablename
+     * @param id
+     */
+    @Update("update ${tablename} set allinfo = #{allinfo} where id =#{id}")
+    public void updateHeroAllInfoColumn(@Param("tablename") String tablename, @Param("id") int id,@Param("allinfo") String allinfo);
 
 }

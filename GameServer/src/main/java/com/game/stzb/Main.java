@@ -6,6 +6,7 @@ import com.itgowo.SimpleServerCore.Utils.LogU;
 import com.itgowo.http.ServerJsonEntity;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

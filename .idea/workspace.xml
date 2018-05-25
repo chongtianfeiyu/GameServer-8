@@ -6,13 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="992ddd98-a3ef-4ec5-aa66-d83d7ef44956" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/game/stzb/Model/UpdateVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/stzb/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/DBManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/GameSTZBDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/stzb/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/game/stzb/GameServer.java" afterDir="false" />
-    </list>
+    <list default="true" id="992ddd98-a3ef-4ec5-aa66-d83d7ef44956" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,52 +16,9 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BaseRequest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/stzb/Model/BaseRequest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="67" selection-start-line="67" selection-end-line="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/stzb/GameServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="75" selection-start-line="75" selection-end-line="75" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#initData#0;class#GameServer#0" />
-                <element signature="docComment;method#goodluck#0;class#GameServer#0" />
-                <element signature="method#goodluck#0;class#GameServer#0" />
-                <element signature="method#initHeroData#0;class#GameServer#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LICENSE" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LICENSE">
           <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="HnHttpServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HnHttpServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="52" selection-start-line="52" selection-end-line="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HttpServerManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/itgowo/http/HttpServerManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="76" column="45" selection-start-line="76" selection-start-column="45" selection-end-line="76" selection-end-column="45" />
-            </state>
-          </provider>
         </entry>
       </file>
     </leaf>
@@ -116,9 +67,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="97" />
-    <option name="y" value="460" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="155" />
+    <option name="y" value="127" />
     <option name="width" value="1508" />
     <option name="height" value="750" />
   </component>
@@ -290,7 +241,7 @@
     <option name="totallyTimeSpent" value="32916000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="97" y="460" width="1508" height="750" extended-state="1" />
+    <frame x="155" y="127" width="1508" height="750" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />

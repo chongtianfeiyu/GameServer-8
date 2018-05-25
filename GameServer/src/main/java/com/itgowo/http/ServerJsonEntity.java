@@ -11,6 +11,7 @@ public class ServerJsonEntity {
     public static final int Success = 1;
     public static final int Fail = 2;
     public static final int other = 3;
+    public static final int Code404 = 404;
     public static final String Code_Success = "success";
     public static final String Code_Fail = "fail";
     private int code = 1;
