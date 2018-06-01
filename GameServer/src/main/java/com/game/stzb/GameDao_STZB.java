@@ -62,6 +62,7 @@ public interface GameDao_STZB {
      */
     @Select("select * from ${tablename} limit #{index},#{limit}")
     public List<HeroEntity> getHeroList(@Param("tablename") String tablename, @Param("index") int mIndex, @Param("limit") int mLimit) throws Exception;
+
     /**
      * 获取武将列表，详细
      *
@@ -121,6 +122,7 @@ public interface GameDao_STZB {
      */
     @Update("update ${tablename} set lastlogin = now() where id =#{id}")
     public void updateLastLoginTime(@Param("tablename") String tablename, @Param("id") int id);
+
     /**
      * 更新武将完整数据字段
      *
@@ -128,6 +130,23 @@ public interface GameDao_STZB {
      * @param id
      */
     @Update("update ${tablename} set allinfo = #{allinfo} where id =#{id}")
-    public void updateHeroAllInfoColumn(@Param("tablename") String tablename, @Param("id") int id,@Param("allinfo") String allinfo);
+    public void updateHeroAllInfoColumn(@Param("tablename") String tablename, @Param("id") int id, @Param("allinfo") String allinfo);
+
+    /**
+     * 修改金额，增加减少多少
+     *
+     * @param tablename
+     * @param userToken
+     */
+    @Update("update ${tablename} set game_money=game_money + #{money} where uuid =#{userToken}")
+    public int updateUserGameMoney(@Param("tablename") String tablename, @Param("userToken") String userToken, @Param("money") long money);
+    /**
+     * 获取金钱数
+     *
+     * @param tablename
+     * @param userToken
+     */
+    @Select("select game_money from ${tablename} where uuid=#{userToken}")
+    public Long getUserGameMoney(@Param("tablename") String tablename, @Param("userToken") String userToken);
 
 }

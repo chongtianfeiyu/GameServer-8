@@ -1,6 +1,6 @@
 package com.game.stzb.Model;
 
-public class HeroEntity {
+public class HeroEntity implements Comparable<HeroEntity>{
     /**
      * contory : 群
      * name : 吕布
@@ -15,78 +15,109 @@ public class HeroEntity {
      * src : https://mgame-f.netease.com/forum/201509/30/172410ttnvuwqeu8ae4v4h.jpg
      * url : /thread-967815-1-1.html
      */
-
+    private Long timeTreitel;
     private String contory;
     private String name;
-    private int distance;
-    private double cost;
+    private Integer distance;
+    private Double cost;
     private String type;
-    private int quality;
-    private int id;
+    private Integer quality;
+    private Integer id;
     private String icon;
-
+    private Integer normal;
     public String getContory() {
         return contory;
     }
 
-    public void setContory(String contory) {
+    public Integer getNormal() {
+        return normal;
+    }
+
+    public boolean checkTimeOut(){
+        Long l=System.currentTimeMillis()-timeTreitel;
+        System.out.println(l);
+        return l>15000;
+    }
+    public HeroEntity initTimeTreitel( ) {
+        this.timeTreitel = System.currentTimeMillis();
+        return this;
+    }
+
+    public HeroEntity setNormal(Integer normal) {
+        this.normal = normal;
+        return this;
+    }
+
+    public HeroEntity setContory(String contory) {
         this.contory = contory;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public HeroEntity setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public HeroEntity setDistance(Integer distance) {
         this.distance = distance;
+        return this;
     }
 
-    public double getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public HeroEntity setCost(Double cost) {
         this.cost = cost;
+        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public HeroEntity setType(String type) {
         this.type = type;
+        return this;
     }
 
-    public int getQuality() {
+    public Integer getQuality() {
         return quality;
     }
 
-    public void setQuality(int quality) {
+    public HeroEntity setQuality(Integer quality) {
         this.quality = quality;
+        return this;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public HeroEntity setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public HeroEntity setIcon(String icon) {
         this.icon = icon;
+        return this;
+    }
+
+    public HeroEntity copySimple() {
+        return new HeroEntity().setName(name).setContory(contory);
     }
 
     @Override
@@ -101,5 +132,10 @@ public class HeroEntity {
                 ", id=" + id +
                 ", icon='" + icon + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(HeroEntity o) {
+        return getName().compareTo(o.name);
     }
 }

@@ -32,6 +32,7 @@ public class UserInfo {
     private Integer seed5;
     private int logintype;
     private String logininfo;
+    private Long game_money;
     @JSONField(serialize = false)
     public synchronized int getRandomHeroType() {
         int temp = sRandom.nextInt(getSeedCount());
@@ -55,6 +56,15 @@ public class UserInfo {
 
     public HeroEntity getRandomHero(List<HeroEntity> mHeroEntities) {
         return mHeroEntities.get(sRandom.nextInt(mHeroEntities.size()));
+    }
+
+    public Long getGame_money() {
+        return game_money;
+    }
+
+    public UserInfo setGame_money(Long game_money) {
+        this.game_money = game_money;
+        return this;
     }
 
     @JSONField(serialize = false)

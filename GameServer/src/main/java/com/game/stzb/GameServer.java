@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 
 public class GameServer extends GameSTZBDao {
@@ -33,6 +31,8 @@ public class GameServer extends GameSTZBDao {
     public static List<HeroEntity> sHero4 = new Vector<>();
     public static List<HeroEntity> sHero2 = new Vector<>();
     public static List<HeroEntity> sHero1 = new Vector<>();
+    public static Map<Integer, HeroEntity> heroEntityMap = new HashMap<>();
+    private static Map<String, HeroEntity> HeroTreitelCache = new HashMap<>();
 
     static {
         initData();
@@ -43,6 +43,7 @@ public class GameServer extends GameSTZBDao {
         sHeroAll.addAll(getHeroList());
         for (int mI = 0; mI < sHeroAll.size(); mI++) {
             HeroEntity mHeroEntity = sHeroAll.get(mI);
+            heroEntityMap.put(mHeroEntity.getId(), mHeroEntity);
             switch (mHeroEntity.getQuality()) {
                 case 5:
                     sHero5.add(mHeroEntity);
@@ -64,7 +65,7 @@ public class GameServer extends GameSTZBDao {
 
     }
 
-    public static void doGame_STZB(HttpServerHandler handler, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
+    public static void doGame_STZB(HttpServerHandler handler, ServerJsonEntity serverJsonEntity) throws UnsupportedEncodingException {
         if (handler.getHttpRequest().method() == HttpMethod.GET) {
             int num = 5;
             List<String> nums = handler.getParameters().get("randomNum");
@@ -80,32 +81,84 @@ public class GameServer extends GameSTZBDao {
             handler.sendData(htmlCreator.getRandomHeroHtml(mHeroEntities), false);
 
         } else {
-            BaseRequest mRequest = JSON.parseObject(handler.getBody(Charset.defaultCharset()), BaseRequest.class);
-            switch (mRequest.getAction()) {
+            BaseRequest request = JSON.parseObject(handler.getBody(Charset.forName("utf-8")), BaseRequest.class);
+            switch (request.getAction()) {
                 case BaseRequest.GET_RANDOM_HERO:
-                    handler.sendData(mServerJsonEntity.setData(getRandomHero(mRequest)), true);
+                    handler.sendData(serverJsonEntity.setData(getRandomHero(request)), true);
                     break;
                 case BaseRequest.GET_HERO_LIST:
-                    handler.sendData(mServerJsonEntity.setData(getHeroList()), true);
+                    handler.sendData(serverJsonEntity.setData(getHeroList()), true);
                     break;
                 case BaseRequest.GET_HERO_DETAIL_LIST:
-                    handler.sendData(mServerJsonEntity.setData(getHeroDetailList()), true);
+                    handler.sendData(serverJsonEntity.setData(getHeroDetailList()), true);
                     break;
-                case BaseRequest.GET_HERO_INFO:
-                    HeroDetailEntity entity = getHeroInfo(mRequest);
-                    if (entity == null) {
-                        handler.sendData(mServerJsonEntity.setCode(ServerJsonEntity.Code404).setMsg("未找到该武将"), true);
-                    } else {
-                        handler.sendData(mServerJsonEntity.setData(entity), true);
-                    }
+                case BaseRequest.GET_HERO_DETAIL:
+                    getHeroDetail(handler, request, serverJsonEntity);
                     break;
                 case BaseRequest.REG_USER:
-                    registerUser(handler, mRequest, mServerJsonEntity);
+                    registerUser(handler, request, serverJsonEntity);
+                    break;
+                case BaseRequest.GET_USER_GAME_MONEY:
+                    getUserMoney(handler, request, serverJsonEntity);
+                    break;
+                case BaseRequest.GET_HERO_GUESS:
+                    getHeroGuess(handler, request, serverJsonEntity);
+                    break;
+                case BaseRequest.POST_HERO_GUESS:
+                    postHeroGuess(handler, request, serverJsonEntity);
                     break;
                 default:
                     handler.sendData(new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The action to be lost，请求动作没有找到，请检查参数是否正确！  枫林开小差了！"), true);
             }
         }
+    }
+
+    private static void postHeroGuess(HttpServerHandler handler, BaseRequest request, ServerJsonEntity serverJsonEntity) throws UnsupportedEncodingException {
+        HeroEntity heroEntity = HeroTreitelCache.remove(request.getToken());
+        if (heroEntity != null && !heroEntity.checkTimeOut()) {
+            HeroEntity entity = request.getData(HeroEntity.class);
+            if (entity != null && entity.getName().equalsIgnoreCase(heroEntity.getName()) && entity.getContory().equalsIgnoreCase(heroEntity.getContory())) {
+                Map<String, Long> data = new HashMap<>();
+                data.put("game_money", GameSTZBDao.updateUserMoney(request.getToken(), (6 - heroEntity.getQuality()) * 200));
+                handler.sendData(serverJsonEntity.setData(data), true);
+            } else {
+                handler.sendData(serverJsonEntity.setCode(ServerJsonEntity.Fail).setMsg("答案错误"), true);
+            }
+        } else {
+            handler.sendData(serverJsonEntity.setCode(ServerJsonEntity.Fail).setMsg(heroEntity == null ? "答案已失效" : "请在15秒内提交答案"), true);
+        }
+    }
+
+    private static void getHeroGuess(HttpServerHandler handler, BaseRequest mRequest, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
+        Random random = new Random(System.currentTimeMillis());
+        Set<HeroEntity> heroEntities = new TreeSet<>();
+        HeroEntity entity = null;
+        while (heroEntities.size() < 4) {
+            entity = sHeroAll.get(random.nextInt(sHeroAll.size()));
+            if (entity.getNormal() < 1) {
+                heroEntities.add(entity.copySimple());
+            }
+        }
+        HeroTreitelCache.put(mRequest.getToken(), entity.initTimeTreitel());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", entity.getId());
+        jsonObject.put("option", heroEntities);
+        handler.sendData(mServerJsonEntity.setData(jsonObject), true);
+    }
+
+    private static void getHeroDetail(HttpServerHandler handler, BaseRequest mRequest, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
+        HeroDetailEntity entity = getHeroInfo(mRequest.getData(BaseRequest.DataEntity.class).getId());
+        if (entity == null) {
+            handler.sendData(mServerJsonEntity.setCode(ServerJsonEntity.Code404).setMsg("未找到该武将"), true);
+        } else {
+            handler.sendData(mServerJsonEntity.setData(entity), true);
+        }
+    }
+
+    private static void getUserMoney(HttpServerHandler handler, BaseRequest request, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
+        Map<String, Long> data = new HashMap<>();
+        data.put("game_money", GameSTZBDao.getUserMoney(request.getToken()));
+        handler.sendData(mServerJsonEntity.setData(data), true);
     }
 
     private static List<HeroEntity> getRandomHero(BaseRequest mRequest) {
