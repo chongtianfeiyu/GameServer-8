@@ -3,6 +3,7 @@ package com.game.stzb.Model;
 import com.alibaba.fastjson.JSON;
 
 public class BaseRequest {
+    public static final String DEFAULT_USER_UUID="aaaaaaaaaaaaaaaa";
     public static final String GET_RANDOM_HERO = "getRandomHero";
     public static final String GET_HERO_LIST = "getHeroList";
     public static final String GET_HERO_DETAIL_LIST = "getHeroDetailList";

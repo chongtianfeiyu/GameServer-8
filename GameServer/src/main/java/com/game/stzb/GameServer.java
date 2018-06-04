@@ -76,7 +76,7 @@ public class GameServer extends GameSTZBDao {
                     mE.printStackTrace();
                 }
             }
-            BaseRequest mRequest = new BaseRequest().setToken("aaaaaaaaaaaaaaaa").setData(JSON.toJSONString(new BaseRequest.DataEntity().setRandomNum(num)));
+            BaseRequest mRequest = new BaseRequest().setToken(BaseRequest.DEFAULT_USER_UUID).setData(JSON.toJSONString(new BaseRequest.DataEntity().setRandomNum(num)));
             List<HeroEntity> mHeroEntities = getRandomHero(mRequest);
             handler.sendData(htmlCreator.getRandomHeroHtml(mHeroEntities), false);
 
@@ -122,7 +122,7 @@ public class GameServer extends GameSTZBDao {
                 data.put("game_money", GameSTZBDao.updateUserMoney(request.getToken(), (6 - heroEntity.getQuality()) * 200));
                 handler.sendData(serverJsonEntity.setData(data), true);
             } else {
-                handler.sendData(serverJsonEntity.setCode(ServerJsonEntity.Fail).setMsg("答案错误"), true);
+                handler.sendData(serverJsonEntity.setCode(ServerJsonEntity.Fail).setMsg("答案错误,此人来自"+heroEntity.getContory()+" 名叫 "+heroEntity.getName()), true);
             }
         } else {
             handler.sendData(serverJsonEntity.setCode(ServerJsonEntity.Fail).setMsg(heroEntity == null ? "答案已失效" : "请在15秒内提交答案"), true);
@@ -130,6 +130,10 @@ public class GameServer extends GameSTZBDao {
     }
 
     private static void getHeroGuess(HttpServerHandler handler, BaseRequest mRequest, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
+        if (BaseRequest.DEFAULT_USER_UUID.equalsIgnoreCase(mRequest.getToken())) {
+            handler.sendData(mServerJsonEntity.setCode(ServerJsonEntity.Fail).setMsg("请先登录再使用此功能"), true);
+            return;
+        }
         Random random = new Random(System.currentTimeMillis());
         Set<HeroEntity> heroEntities = new TreeSet<>();
         HeroEntity entity = null;
