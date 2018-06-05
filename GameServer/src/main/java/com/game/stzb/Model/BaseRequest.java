@@ -3,7 +3,7 @@ package com.game.stzb.Model;
 import com.alibaba.fastjson.JSON;
 
 public class BaseRequest {
-    public static final String DEFAULT_USER_UUID="aaaaaaaaaaaaaaaa";
+    public static final String DEFAULT_USER_UUID = "aaaaaaaaaaaaaaaa";
     public static final String GET_RANDOM_HERO = "getRandomHero";
     public static final String GET_HERO_LIST = "getHeroList";
     public static final String GET_HERO_DETAIL_LIST = "getHeroDetailList";
@@ -17,7 +17,29 @@ public class BaseRequest {
     private String token;
     private Integer pageIndex;
     private Integer pageSize;
+    private Integer serverVersion;
+    private Integer appVersion;
     private String data;
+    public boolean isDefaultGuest(){
+        return DEFAULT_USER_UUID.equalsIgnoreCase(token);
+    }
+    public Integer getServerVersion() {
+        return serverVersion;
+    }
+
+    public BaseRequest setServerVersion(Integer serverVersion) {
+        this.serverVersion = serverVersion;
+        return this;
+    }
+
+    public int getAppVersion() {
+        return appVersion == null ? 0 : appVersion;
+    }
+
+    public BaseRequest setAppVersion(Integer appVersion) {
+        this.appVersion = appVersion;
+        return this;
+    }
 
     public String getFlag() {
         return flag;
