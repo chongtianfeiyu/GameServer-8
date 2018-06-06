@@ -260,9 +260,9 @@ public class GameSTZBDao {
             GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
             UserInfo mUserInfo1 = mGameDao_stzb.getUserByUUID(DBManager.STZB_DATATABLE_USER, mUserInfo.getUuid());
             if (mUserInfo1 == null) {
-                mUserInfo.setHerocount(Utils.getDefaultHeroCount());
                 int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
                 int userid = mGameDao_stzb.getLastID();
+                mGameDao_stzb.updateHeroCountColumn(DBManager.STZB_DATATABLE_USER,userid,Utils.getDefaultHeroCount());
                 mUserInfo1 = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
             } else {
                 updateUserLoginTime(mUserInfo1.getId());

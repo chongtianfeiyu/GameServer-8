@@ -175,6 +175,16 @@ public class HeroDetailEntity {
      * 数据库顺序
      */
     private Integer keyid;
+    private Integer userCount;
+
+    public Integer getUserCount() {
+        return userCount;
+    }
+
+    public HeroDetailEntity setUserCount(Integer userCount) {
+        this.userCount = userCount;
+        return this;
+    }
 
     public Integer getKeyid() {
         return keyid;
