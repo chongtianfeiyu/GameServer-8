@@ -23,10 +23,31 @@ public class HeroEntity implements Comparable<HeroEntity>{
     private String type;
     private Integer quality;
     private Integer id;
+    private Integer keyid;
     private String icon;
     private Integer normal;
+    private Integer userCount;
+
+    public Integer getUserCount() {
+        return userCount;
+    }
+
+    public HeroEntity setUserCount(Integer userCount) {
+        this.userCount = userCount;
+        return this;
+    }
+
     public String getContory() {
         return contory;
+    }
+
+    public Integer getKeyid() {
+        return keyid;
+    }
+
+    public HeroEntity setKeyid(Integer keyid) {
+        this.keyid = keyid;
+        return this;
     }
 
     public Integer getNormal() {
@@ -35,7 +56,6 @@ public class HeroEntity implements Comparable<HeroEntity>{
 
     public boolean checkTimeOut(){
         Long l=System.currentTimeMillis()-timeTreitel;
-        System.out.println(l);
         return l>15000;
     }
     public HeroEntity initTimeTreitel( ) {

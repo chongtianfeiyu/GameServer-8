@@ -2,6 +2,7 @@ package com.game.stzb.Model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +34,16 @@ public class UserInfo {
     private int logintype;
     private String logininfo;
     private Long game_money;
+    private byte[] herocount;
+
+    public byte[] getHerocount() {
+       return herocount;
+    }
+    public UserInfo setHerocount(byte[] herocount) {
+        this.herocount = herocount ;
+        return this;
+    }
+
     @JSONField(serialize = false)
     public synchronized int getRandomHeroType() {
         int temp = sRandom.nextInt(getSeedCount());

@@ -9,9 +9,6 @@ import com.game.stzb.Model.UserInfo;
 import com.itgowo.SimpleServerCore.Http.HttpServerHandler;
 import com.itgowo.http.ServerJsonEntity;
 import io.netty.handler.codec.http.HttpMethod;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;
@@ -31,7 +28,7 @@ public class GameServer extends GameSTZBDao {
     public static List<HeroEntity> sHero4 = new Vector<>();
     public static List<HeroEntity> sHero2 = new Vector<>();
     public static List<HeroEntity> sHero1 = new Vector<>();
-    public static Map<Integer, HeroEntity> heroEntityMap = new HashMap<>();
+    public static Map<Integer, HeroEntity> heroEntityMapById = new HashMap<>();
     private static Map<String, HeroEntity> HeroTreitelCache = new HashMap<>();
 
     static {
@@ -43,7 +40,7 @@ public class GameServer extends GameSTZBDao {
         sHeroAll.addAll(getHeroList());
         for (int mI = 0; mI < sHeroAll.size(); mI++) {
             HeroEntity mHeroEntity = sHeroAll.get(mI);
-            heroEntityMap.put(mHeroEntity.getId(), mHeroEntity);
+            heroEntityMapById.put(mHeroEntity.getId(), mHeroEntity);
             switch (mHeroEntity.getQuality()) {
                 case 5:
                     sHero5.add(mHeroEntity);
@@ -62,7 +59,6 @@ public class GameServer extends GameSTZBDao {
                     break;
             }
         }
-
     }
 
     public static void doGame_STZB(HttpServerHandler handler, ServerJsonEntity serverJsonEntity) throws UnsupportedEncodingException {
@@ -79,7 +75,6 @@ public class GameServer extends GameSTZBDao {
             BaseRequest mRequest = new BaseRequest().setToken(BaseRequest.DEFAULT_USER_UUID).setData(JSON.toJSONString(new BaseRequest.DataEntity().setRandomNum(num)));
             List<HeroEntity> mHeroEntities = getRandomHero(handler, mRequest, null);
             handler.sendData(htmlCreator.getRandomHeroHtml(mHeroEntities), false);
-
         } else {
             BaseRequest request = JSON.parseObject(handler.getBody(Charset.forName("utf-8")), BaseRequest.class);
             switch (request.getAction()) {
@@ -88,6 +83,9 @@ public class GameServer extends GameSTZBDao {
                     break;
                 case BaseRequest.GET_HERO_LIST:
                     handler.sendData(serverJsonEntity.setData(getHeroList()), true);
+                    break;
+                case BaseRequest.GET_HERO_LIST_WITH_USER:
+                    handler.sendData(serverJsonEntity.setData(getHeroListWithUser(request, null, null)), true);
                     break;
                 case BaseRequest.GET_HERO_DETAIL_LIST:
                     handler.sendData(serverJsonEntity.setData(getHeroDetailList()), true);
@@ -111,6 +109,13 @@ public class GameServer extends GameSTZBDao {
                     handler.sendData(new ServerJsonEntity().setCode(ServerJsonEntity.Fail).setMsg("Error 404,The action to be lost，请求动作没有找到，请检查参数是否正确！  枫林开小差了！"), true);
             }
         }
+    }
+
+    private static void updateUserHeroCount(UserInfo userInfo, List<HeroEntity> heroEntitys) {
+        for (int i = 0; i < heroEntitys.size(); i++) {
+            Utils.updateHeroCount(userInfo.getHerocount(), heroEntitys.get(i).getKeyid());
+        }
+        updateHeroCountColumn(userInfo.getId(), userInfo.getHerocount());
     }
 
     private static void postHeroGuess(HttpServerHandler handler, BaseRequest request, ServerJsonEntity serverJsonEntity) throws UnsupportedEncodingException {
@@ -172,46 +177,50 @@ public class GameServer extends GameSTZBDao {
             return null;
         }
         int payMoney = mNum * 200 - (mNum == 5 ? 50 : 0);
-        UserInfo mUserInfo = getUserInfo(request.getToken());
-        if (!request.isDefaultGuest() && mUserInfo.getGame_money() < payMoney) {
+        UserInfo userInfo = getUserInfo(request.getToken());
+        if (!request.isDefaultGuest() && userInfo.getGame_money() < payMoney) {
             handler.sendData(serverJsonEntity.setMsg("余额不足，请参加活动获取").setCode(ServerJsonEntity.Fail), true);
             return null;
         }
         List<HeroEntity> mHeroEntities = new ArrayList<>();
+
         for (int mI = 0; mI < mNum; mI++) {
-            switch (mUserInfo.getRandomHeroType()) {
+            switch (userInfo.getRandomHeroType()) {
                 case UserInfo.HERO1:
-                    mHeroEntities.add(mUserInfo.getRandomHero(sHero1));
+                    mHeroEntities.add(userInfo.getRandomHero(sHero1));
                     break;
                 case UserInfo.HERO2:
-                    mHeroEntities.add(mUserInfo.getRandomHero(sHero2));
+                    mHeroEntities.add(userInfo.getRandomHero(sHero2));
                     break;
                 case UserInfo.HERO3:
-                    mHeroEntities.add(mUserInfo.getRandomHero(sHero3));
+                    mHeroEntities.add(userInfo.getRandomHero(sHero3));
                     break;
                 case UserInfo.HERO4:
-                    mHeroEntities.add(mUserInfo.getRandomHero(sHero4));
+                    mHeroEntities.add(userInfo.getRandomHero(sHero4));
                     break;
                 case UserInfo.HERO5:
-                    mHeroEntities.add(mUserInfo.getRandomHero(sHero5));
+                    mHeroEntities.add(userInfo.getRandomHero(sHero5));
                     break;
             }
         }
         if (serverJsonEntity == null) {
             return mHeroEntities;
+        }
+        if (!request.isDefaultGuest()) {
+            updateUserHeroCount(userInfo, mHeroEntities);
+        }
+        long money = request.isDefaultGuest() ? 0 : GameSTZBDao.updateUserMoney(request.getToken(), -payMoney);
+        //todo 兼容方案，以后删除
+        if (request.getAppVersion() <= 204) {
+            handler.sendData(serverJsonEntity.setData(mHeroEntities), true);
         } else {
-            long money = request.isDefaultGuest() ? 0 : GameSTZBDao.updateUserMoney(request.getToken(), -payMoney);
             Map<String, Object> data = new HashMap<>();
+            mHeroEntities = getHeroListWithUser(request, userInfo, mHeroEntities);
             data.put("game_money", money);
             data.put("herolist", mHeroEntities);
-            //todo 兼容方案，以后删除
-            if (request.getAppVersion() <= 204) {
-                handler.sendData(serverJsonEntity.setData(mHeroEntities), true);
-            } else {
-                handler.sendData(serverJsonEntity.setData(data), true);
-            }
-            return null;
+            handler.sendData(serverJsonEntity.setData(data), true);
         }
+        return null;
     }
 
     private static void registerUser(HttpServerHandler handler, BaseRequest mRequest, ServerJsonEntity mServerJsonEntity) throws UnsupportedEncodingException {
@@ -274,28 +283,28 @@ public class GameServer extends GameSTZBDao {
 
     private static String NetHeroAllInfoURL = "https://app.gamer.163.com/game-db/g10/hero";
 
-
-    public static void updateHeroAllInfoColumn() throws IOException {
-        List<HeroEntity> list = GameServer.getHeroList();
-        list.sort((o1, o2) -> o1.getId() - o2.getId());
-//        for (int i = 0; i < list.size(); i++) {
-//            System.out.println(list.get(i).getId() + list.get(i).getName());
-        OkHttpClient client = new OkHttpClient();
-        // Create request for remote resource.
-        Request request = new Request.Builder().url(NetHeroAllInfoURL).build();
-        Response response = client.newCall(request).execute();
-        String bodyjson = response.body().string();
-        JSONObject jsonObject = JSON.parseObject(bodyjson);
-        JSONObject jsonObject1 = jsonObject.getJSONObject("hero");
-        List<HeroDetailEntity> list1 = new ArrayList<>();
-        for (String s : jsonObject1.keySet()) {
-            HeroDetailEntity heroBean = jsonObject1.getJSONObject(s).toJavaObject(HeroDetailEntity.class);
-            list1.add(heroBean);
-//            GameSTZBDao.addHero(heroBean);
-        }
-        String ss = JSON.toJSONString(list1);
-        List<HeroDetailEntity> heroBeans = JSON.parseArray(ss, HeroDetailEntity.class);
-        System.out.println(11);
-    }
+//
+//    public static void updateHeroAllInfoColumn() throws IOException {
+//        List<HeroEntity> list = GameServer.getHeroList();
+//        list.sort((o1, o2) -> o1.getId() - o2.getId());
+////        for (int i = 0; i < list.size(); i++) {
+////            System.out.println(list.get(i).getId() + list.get(i).getName());
+//        OkHttpClient client = new OkHttpClient();
+//        // Create request for remote resource.
+//        Request request = new Request.Builder().url(NetHeroAllInfoURL).build();
+//        Response response = client.newCall(request).execute();
+//        String bodyjson = response.body().string();
+//        JSONObject jsonObject = JSON.parseObject(bodyjson);
+//        JSONObject jsonObject1 = jsonObject.getJSONObject("hero");
+//        List<HeroDetailEntity> list1 = new ArrayList<>();
+//        for (String s : jsonObject1.keySet()) {
+//            HeroDetailEntity heroBean = jsonObject1.getJSONObject(s).toJavaObject(HeroDetailEntity.class);
+//            list1.add(heroBean);
+////            GameSTZBDao.addHero(heroBean);
+//        }
+//        String ss = JSON.toJSONString(list1);
+//        List<HeroDetailEntity> heroBeans = JSON.parseArray(ss, HeroDetailEntity.class);
+//        System.out.println(11);
+//    }
 
 }

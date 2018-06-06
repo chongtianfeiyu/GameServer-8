@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation  'com.itgowo:SimpleServer:0.13'
+    implementation  'com.itgowo:SimpleServer:0.14'
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 

@@ -1,8 +1,10 @@
 package com.game.stzb;
 
+import com.game.stzb.Model.BaseRequest;
 import com.game.stzb.Model.HeroDetailEntity;
 import com.game.stzb.Model.HeroEntity;
 import com.game.stzb.Model.UserInfo;
+import com.sun.istack.internal.Nullable;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
@@ -28,6 +30,23 @@ public class GameSTZBDao {
             }
         }
         return -1;
+    }
+
+    public static List<HeroEntity> getHeroListWithUser(BaseRequest request, @Nullable UserInfo userInfo,@Nullable List<HeroEntity> heroEntities) {
+        if (request.isDefaultGuest()) {
+            return new ArrayList<>();
+        }
+        if (heroEntities==null) {
+            heroEntities = getHeroList();
+        }
+        if (userInfo == null) {
+            userInfo = getUserInfo(request.getToken());
+        }
+        for (int i = 0; i < heroEntities.size(); i++) {
+            HeroEntity entity = heroEntities.get(i);
+            entity.setUserCount(Utils.getHeroCount(userInfo.getHerocount(), entity.getKeyid()));
+        }
+        return heroEntities;
     }
 
     public static List<HeroEntity> getHeroList() {
@@ -105,6 +124,7 @@ public class GameSTZBDao {
             mUserInfo = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, id);
             if (mUserInfo != null) {
                 mUserInfo.setPwd(null);
+                mUserInfo.setLogininfo(null);
             }
             session.commit(true);
             return mUserInfo;
@@ -130,6 +150,7 @@ public class GameSTZBDao {
             mUserInfo = mGameDao_stzb.getUserByUUID(DBManager.STZB_DATATABLE_USER, uuid);
             if (mUserInfo != null) {
                 mUserInfo.setPwd(null);
+                mUserInfo.setLogininfo(null);
             }
             session.commit(true);
             return mUserInfo;
@@ -165,13 +186,14 @@ public class GameSTZBDao {
         }
     }
 
-    public static void updateHeroAllInfoColumn(int id, String allinfo) {
+    public static int updateHeroCountColumn(int id, byte[] herocount) {
         SqlSession session = null;
         try {
             session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
             GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
-            mGameDao_stzb.updateHeroAllInfoColumn(DBManager.STZB_DATATABLE_HERO, id, allinfo);
+            int result = mGameDao_stzb.updateHeroCountColumn(DBManager.STZB_DATATABLE_USER, id, herocount);
             session.commit(true);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             if (session != null) {
@@ -182,6 +204,7 @@ public class GameSTZBDao {
                 session.close();
             }
         }
+        return -1;
     }
 
     public static long updateUserMoney(String userToken, long moneyChange) {
@@ -192,7 +215,7 @@ public class GameSTZBDao {
             mGameDao_stzb.updateUserGameMoney(DBManager.STZB_DATATABLE_USER, userToken, moneyChange);
             Long money = mGameDao_stzb.getUserGameMoney(DBManager.STZB_DATATABLE_USER, userToken);
             session.commit(true);
-            if (money==null){
+            if (money == null) {
                 return -1;
             }
             return money;
@@ -237,13 +260,17 @@ public class GameSTZBDao {
             GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
             UserInfo mUserInfo1 = mGameDao_stzb.getUserByUUID(DBManager.STZB_DATATABLE_USER, mUserInfo.getUuid());
             if (mUserInfo1 == null) {
+                mUserInfo.setHerocount(Utils.getDefaultHeroCount());
                 int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
                 int userid = mGameDao_stzb.getLastID();
                 mUserInfo1 = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
             } else {
                 updateUserLoginTime(mUserInfo1.getId());
             }
-            mUserInfo1.setPwd(null);
+            if (mUserInfo1 != null) {
+                mUserInfo1.setPwd(null);
+                mUserInfo1.setLogininfo(null);
+            }
             session.commit(true);
             return mUserInfo1;
         } catch (Exception e) {

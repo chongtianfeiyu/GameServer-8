@@ -129,8 +129,8 @@ public interface GameDao_STZB {
      * @param tablename
      * @param id
      */
-    @Update("update ${tablename} set allinfo = #{allinfo} where id =#{id}")
-    public void updateHeroAllInfoColumn(@Param("tablename") String tablename, @Param("id") int id, @Param("allinfo") String allinfo);
+    @Update("update ${tablename} set herocount = #{herocount} where id =#{id}")
+    public int updateHeroCountColumn(@Param("tablename") String tablename, @Param("id") int id, @Param("herocount") byte[] herocount);
 
     /**
      * 修改金额，增加减少多少
