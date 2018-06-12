@@ -6,7 +6,9 @@ public class BaseRequest {
     public static final String DEFAULT_USER_UUID = "aaaaaaaaaaaaaaaa";
     public static final String GET_RANDOM_HERO = "getRandomHero";
     public static final String GET_HERO_LIST = "getHeroList";
+    public static final String GET_HERO_LIST_WITH_ATTR = "getHeroListWithAttr";
     public static final String GET_HERO_LIST_WITH_USER = "getHeroListWithUser";
+    public static final String GET_HERO_LIST_WITH_USER_AND_ATTR = "getHeroListWithUserAndAttr";
     public static final String GET_HERO_DETAIL_LIST = "getHeroDetailList";
     public static final String GET_HERO_DETAIL = "getHeroDetail";
     public static final String REG_USER = "regUser";

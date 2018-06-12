@@ -95,7 +95,7 @@ public class HeroDetailEntity {
      * 拆解技能简述
      */
     private String methodDesc1;
-    private Object methodDesc2;
+    private String methodDesc2;
     /**
      * 天赋技能详情
      */
@@ -104,7 +104,7 @@ public class HeroDetailEntity {
      * 拆解技能详情
      */
     private MethodDetail1Bean methodDetail1;
-    private Object methodDetail2;
+    private MethodDetail1Bean methodDetail2;
     /**
      * 天赋技能id
      */
@@ -307,11 +307,11 @@ public class HeroDetailEntity {
         this.methodDesc1 = methodDesc1;
     }
 
-    public Object getMethodDesc2() {
+    public String getMethodDesc2() {
         return methodDesc2;
     }
 
-    public void setMethodDesc2(Object methodDesc2) {
+    public void setMethodDesc2(String methodDesc2) {
         this.methodDesc2 = methodDesc2;
     }
 
@@ -331,11 +331,11 @@ public class HeroDetailEntity {
         this.methodDetail1 = methodDetail1;
     }
 
-    public Object getMethodDetail2() {
+    public MethodDetail1Bean getMethodDetail2() {
         return methodDetail2;
     }
 
-    public void setMethodDetail2(Object methodDetail2) {
+    public void setMethodDetail2(MethodDetail1Bean methodDetail2) {
         this.methodDetail2 = methodDetail2;
     }
 

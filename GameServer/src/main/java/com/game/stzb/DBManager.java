@@ -12,6 +12,7 @@ public class DBManager {
     public static final String STZB_DATABASENAME = "Game";
     public static final String UPDETEVERSION_DATABASENAME = "server";
     public static final String STZB_DATATABLE_HERO = "stzb_hero2";
+    public static final String STZB_DATATABLE_LOG = "stzb_log_action";
     public static final String STZB_DATATABLE_SKILL = "stzb_skill";
     public static final String STZB_DATATABLE_USER = "stzb_user";
     private static SqlSessionFactory mSqlSessionFactory;

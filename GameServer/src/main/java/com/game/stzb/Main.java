@@ -6,6 +6,7 @@ import com.itgowo.SimpleServerCore.Utils.LogU;
 import com.itgowo.http.ServerJsonEntity;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ public class Main {
             public void onReceiveHandler(HttpServerHandler httpServerHandler) {
                 try {
                     log.info(httpServerHandler.getCtx().channel().remoteAddress().toString() + "  " + httpServerHandler.getHttpRequest().method().name() + "  " + httpServerHandler.getUri());
+                    log.info(httpServerHandler.getBody(Charset.forName("utf-8")));
                     ServerJsonEntity serverJsonEntity = new ServerJsonEntity();
                     if (httpServerHandler.getUri().startsWith(GameServer.ROOTPATH)) {
                         GameServer.doGame_STZB(httpServerHandler, serverJsonEntity);
@@ -42,7 +44,7 @@ public class Main {
 
             @Override
             public void onError(Throwable throwable) {
-
+                throwable.printStackTrace();
             }
         });
         Thread mGameThread = new Thread(() -> {

@@ -38,8 +38,8 @@ public class Utils {
     }
 
     public static byte[] updateHeroCount(byte[] src, int position) {
-        if (position > 500) {
-            position = 500;
+        if (position >= src.length) {
+            position = src.length-1;
         }
         int num = byte2int(src[position]);
         if (num == 255) {

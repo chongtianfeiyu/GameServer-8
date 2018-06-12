@@ -77,6 +77,7 @@ public class GameServer extends GameSTZBDao {
             handler.sendData(htmlCreator.getRandomHeroHtml(mHeroEntities), false);
         } else {
             BaseRequest request = JSON.parseObject(handler.getBody(Charset.forName("utf-8")), BaseRequest.class);
+            addActionLog(request);
             switch (request.getAction()) {
                 case BaseRequest.GET_RANDOM_HERO:
                     getRandomHero(handler, request, serverJsonEntity);
@@ -84,8 +85,14 @@ public class GameServer extends GameSTZBDao {
                 case BaseRequest.GET_HERO_LIST:
                     handler.sendData(serverJsonEntity.setData(getHeroList()), true);
                     break;
+                case BaseRequest.GET_HERO_LIST_WITH_ATTR:
+                    handler.sendData(serverJsonEntity.setData(getHeroListWithAttr()), true);
+                    break;
                 case BaseRequest.GET_HERO_LIST_WITH_USER:
                     handler.sendData(serverJsonEntity.setData(getHeroListWithUser(request, null, null)), true);
+                    break;
+                case BaseRequest.GET_HERO_LIST_WITH_USER_AND_ATTR:
+                    handler.sendData(serverJsonEntity.setData(getHeroListWithUserAndAttr(request, null, null)), true);
                     break;
                 case BaseRequest.GET_HERO_DETAIL_LIST:
                     handler.sendData(serverJsonEntity.setData(getHeroDetailList()), true);

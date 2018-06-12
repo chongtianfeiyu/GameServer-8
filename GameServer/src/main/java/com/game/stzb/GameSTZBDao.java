@@ -1,9 +1,6 @@
 package com.game.stzb;
 
-import com.game.stzb.Model.BaseRequest;
-import com.game.stzb.Model.HeroDetailEntity;
-import com.game.stzb.Model.HeroEntity;
-import com.game.stzb.Model.UserInfo;
+import com.game.stzb.Model.*;
 import com.sun.istack.internal.Nullable;
 import org.apache.ibatis.session.SqlSession;
 
@@ -32,11 +29,11 @@ public class GameSTZBDao {
         return -1;
     }
 
-    public static List<HeroEntity> getHeroListWithUser(BaseRequest request, @Nullable UserInfo userInfo,@Nullable List<HeroEntity> heroEntities) {
+    public static List<HeroEntity> getHeroListWithUser(BaseRequest request, @Nullable UserInfo userInfo, @Nullable List<HeroEntity> heroEntities) {
         if (request.isDefaultGuest()) {
             return new ArrayList<>();
         }
-        if (heroEntities==null) {
+        if (heroEntities == null) {
             heroEntities = getHeroList();
         }
         if (userInfo == null) {
@@ -49,6 +46,47 @@ public class GameSTZBDao {
         return heroEntities;
     }
 
+    public static List<HeroEntityWithAttr> getHeroListWithUserAndAttr(BaseRequest request, @Nullable UserInfo userInfo, @Nullable List<HeroEntityWithAttr> heroEntities) {
+        if (request.isDefaultGuest()) {
+            return new ArrayList<>();
+        }
+        if (heroEntities == null) {
+            heroEntities = getHeroListWithAttr();
+        }
+        if (userInfo == null) {
+            userInfo = getUserInfo(request.getToken());
+        }
+        for (int i = 0; i < heroEntities.size(); i++) {
+            HeroEntityWithAttr entity = heroEntities.get(i);
+            entity.setUserCount(Utils.getHeroCount(userInfo.getHerocount(), entity.getKeyid()));
+        }
+        return heroEntities;
+    }
+
+    public static void addActionLog(BaseRequest request) {
+        if (request == null || request.isDefaultGuest()) {
+            return;
+        }
+        ActionLog actionLog = new ActionLog().setAction(request.getAction());
+        actionLog.setToken(request.getToken()).setData(request.getData()).setBak(request.toJson());
+        SqlSession session = null;
+        try {
+            session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
+            GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
+            int result = mGameDao_stzb.addActionLog(DBManager.STZB_DATATABLE_LOG, actionLog);
+            session.commit(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session != null) {
+                session.rollback(true);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public static List<HeroEntity> getHeroList() {
         SqlSession session = null;
         List<HeroEntity> mHeroEntities;
@@ -56,6 +94,28 @@ public class GameSTZBDao {
             session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
             GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
             mHeroEntities = mGameDao_stzb.getHeroList(DBManager.STZB_DATATABLE_HERO, 0, 1000);
+            session.commit(true);
+            return mHeroEntities;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session != null) {
+                session.rollback(true);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public static List<HeroEntityWithAttr> getHeroListWithAttr() {
+        SqlSession session = null;
+        List<HeroEntityWithAttr> mHeroEntities;
+        try {
+            session = DBManager.getSqlSessionFactory(GameDao_STZB.class).openSession();
+            GameDao_STZB mGameDao_stzb = session.getMapper(GameDao_STZB.class);
+            mHeroEntities = mGameDao_stzb.getHeroListWithAttr(DBManager.STZB_DATATABLE_HERO, 0, 1000);
             session.commit(true);
             return mHeroEntities;
         } catch (Exception e) {
@@ -262,7 +322,7 @@ public class GameSTZBDao {
             if (mUserInfo1 == null) {
                 int result = mGameDao_stzb.addUser(DBManager.STZB_DATATABLE_USER, mUserInfo);
                 int userid = mGameDao_stzb.getLastID();
-                mGameDao_stzb.updateHeroCountColumn(DBManager.STZB_DATATABLE_USER,userid,Utils.getDefaultHeroCount());
+                mGameDao_stzb.updateHeroCountColumn(DBManager.STZB_DATATABLE_USER, userid, Utils.getDefaultHeroCount());
                 mUserInfo1 = mGameDao_stzb.getUserByID(DBManager.STZB_DATATABLE_USER, userid);
             } else {
                 updateUserLoginTime(mUserInfo1.getId());

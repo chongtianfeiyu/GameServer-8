@@ -1,8 +1,6 @@
 package com.game.stzb;
 
-import com.game.stzb.Model.HeroDetailEntity;
-import com.game.stzb.Model.HeroEntity;
-import com.game.stzb.Model.UserInfo;
+import com.game.stzb.Model.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -62,6 +60,18 @@ public interface GameDao_STZB {
      */
     @Select("select * from ${tablename} limit #{index},#{limit}")
     public List<HeroEntity> getHeroList(@Param("tablename") String tablename, @Param("index") int mIndex, @Param("limit") int mLimit) throws Exception;
+
+    /**
+     * 获取武将列表，简单数据包含属性
+     *
+     * @param tablename
+     * @param mIndex
+     * @param mLimit
+     * @return
+     * @throws Exception
+     */
+    @Select("select * from ${tablename} limit #{index},#{limit}")
+    public List<HeroEntityWithAttr> getHeroListWithAttr(@Param("tablename") String tablename, @Param("index") int mIndex, @Param("limit") int mLimit) throws Exception;
 
     /**
      * 获取武将列表，详细
@@ -140,6 +150,7 @@ public interface GameDao_STZB {
      */
     @Update("update ${tablename} set game_money=game_money + #{money} where uuid =#{userToken}")
     public int updateUserGameMoney(@Param("tablename") String tablename, @Param("userToken") String userToken, @Param("money") long money);
+
     /**
      * 获取金钱数
      *
@@ -148,5 +159,16 @@ public interface GameDao_STZB {
      */
     @Select("select game_money from ${tablename} where uuid=#{userToken}")
     public Long getUserGameMoney(@Param("tablename") String tablename, @Param("userToken") String userToken);
+    /**
+     * 插入一条操作记录
+     *
+     * @param tablename
+     * @param mEntity
+     * @return
+     * @throws Exception
+     */
+    @Insert(" insert into  ${tablename} ( `userId`, `userName`, `data`, `token`, `action`, `bak`) values" +
+            " (#{bean.userId},#{bean.userName},#{bean.data},#{bean.token},#{bean.action},#{bean.bak})")
+    public int addActionLog(@Param("tablename") String tablename, @Param("bean") ActionLog mEntity) throws Exception;
 
 }
