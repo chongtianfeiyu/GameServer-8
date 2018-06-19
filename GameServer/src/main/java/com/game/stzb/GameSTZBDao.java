@@ -31,7 +31,7 @@ public class GameSTZBDao {
 
     public static List<HeroEntity> getHeroListWithUser(BaseRequest request, @Nullable UserInfo userInfo, @Nullable List<HeroEntity> heroEntities) {
         if (request.isDefaultGuest()) {
-            return new ArrayList<>();
+            return heroEntities;
         }
         if (heroEntities == null) {
             heroEntities = getHeroList();
